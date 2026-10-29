@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Paritas Library
         run: |
-          lake build
+          lake build Paritas
 
       - name: Audit Axioms & Soundness
         run: |

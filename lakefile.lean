@@ -9,5 +9,6 @@ package «paritas» where
   license := "Apache-2.0"
   licenseFiles := #["LICENSE"]
 
+@[default_target]
 lean_lib «Paritas» where
   roots := #[`Paritas]
