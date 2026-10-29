@@ -1,6 +1,7 @@
 # Paritas
 
 [![Lean 4](https://img.shields.io/badge/Lean_4-v4.14.0-blue.svg)](https://leanprover.github.io/)
+[![CI](https://github.com/cloudhabil/Paritas/actions/workflows/ci.yml/badge.svg)](https://github.com/cloudhabil/Paritas/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](LICENSE)
 [![Axioms](https://img.shields.io/badge/custom_axioms-0-brightgreen.svg)]()
 [![Sorry](https://img.shields.io/badge/sorry-0-brightgreen.svg)]()
@@ -121,7 +122,7 @@ Add `Paritas` to your `lakefile.lean`:
 
 ```lean
 require paritas from git
-  "https://github.com/ToposLang/paritas" @ "v0.1.0"
+  "https://github.com/cloudhabil/Paritas" @ "main"
 ```
 
 Or for local development:
@@ -140,6 +141,7 @@ open Paritas.HodgeClifford
 open Paritas.Grassmannian
 open Paritas.Manifold8D
 open Paritas.Mechanics
+open Paritas.Quantum
 ```
 
 Build with Lake:

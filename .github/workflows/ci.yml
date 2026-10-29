@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Elan & Lean 4
+        uses: leanprover/lean-action@v1
+        with:
+          auto-build: false
+          use-github-cache: true
+
+      - name: Verify Toolchain
+        run: |
+          lean --version
+          lake --version
+
+      - name: Build Paritas Library
+        run: |
+          lake build
+
+      - name: Audit Axioms & Soundness
+        run: |
+          echo "Auditing axioms across core theorems..."
+          cat << 'EOF' | lake env lean --stdin
+          import Paritas
+          #print axioms Paritas.DACC.dacc_parity_coupling_symmetric
+          #print axioms Paritas.DACC.e8_dacc_parity_instantiation
+          #print axioms Paritas.HodgeClifford.hodge_star_is_involution
+          #print axioms Paritas.HodgeClifford.self_dual_projector_idempotent
+          #print axioms Paritas.HodgeClifford.attention_wedge_penalty_decreases
+          #print axioms Paritas.Grassmannian.postnikov_nilpotent_inverse_order2
+          #print axioms Paritas.Manifold8D.spin8_triality_equidimensional
+          #print axioms Paritas.Manifold8D.e8_cartan_diagonal_pos
+          #print axioms Paritas.Mechanics.maxwell_calladine_index_theorem
+          #print axioms Paritas.Quantum.symplectic_skew_symmetric
+          #print axioms Paritas.Quantum.sic_trace_reconstruction
+          EOF
