@@ -16,14 +16,14 @@ Developed by the **ToposLang / PLQ / TMMSL** initiative, `Paritas` provides an i
 ```
                                       Paritas.lean
                                            │
-         ┌───────────────────┬─────────────┴───────┬──────────────────┬─────────────────┐
-         ▼                   ▼                     ▼                  ▼                 ▼
-    Paritas.DACC     Paritas.HodgeClifford  Paritas.Grassmannian  Paritas.Manifold8D  Paritas.Mechanics
-         │                   │                     │                  │                 │
-    ┌────┴────┐         ┌────┴──────┐              │             ┌────┴────┐            │
-    ▼         ▼         ▼           ▼              ▼             ▼         ▼            ▼
-  Basic    Laplacian  Basic     Projectors       Basic         Basic    Triality   MaxwellCalladine
-  Duality             Dirac
+         ┌───────────────────┬─────────────┴───────┬──────────────────┬─────────────────┬──────────────────┐
+         ▼                   ▼                     ▼                  ▼                 ▼                  ▼
+    Paritas.DACC     Paritas.HodgeClifford  Paritas.Grassmannian  Paritas.Manifold8D  Paritas.Mechanics  Paritas.Quantum
+         │                   │                     │                  │                 │                  │
+    ┌────┴────┐         ┌────┴────────┐            │             ┌────┴────┐            │             ┌────┴─────┐
+    ▼         ▼         ▼    ▼        ▼            ▼             ▼         ▼            ▼             ▼          ▼
+  Basic    Laplacian  Basic Dirac Projectors     Basic         Basic    Triality   MaxwellCalladine Tomography Kauffman
+  Duality             Attention
 ```
 
 ---
@@ -43,6 +43,8 @@ Developed by the **ToposLang / PLQ / TMMSL** initiative, `Paritas` provides an i
 - **Chiral Orthogonality** (`self_dual_anti_self_dual_orthogonal`): $(2 P_+) \cdot (2 P_-) = 0$.
 - **Chiral Completeness** (`chiral_projector_completeness`): $2 P_+ + 2 P_- = 2 I_6$.
 - **Akbulut Cork-Twist Sensitivity** (`cork_energy_shift_certified`): Breaking linear Hodge blindness with strictly positive non-linear self-dual energy $\Delta E_{\text{SD}} = 4 > 0$.
+- **Dual-Stream Clifford Attention** (`attention_collinear_wedge_zero`, `attention_wedge_penalty_decreases`): Unifies Grade-0 metric scalar alignment with exterior wedge steric cancellation penalty $E_{ij} = \langle Q \widetilde{K} \rangle_0 - \lambda_\wedge |Q \wedge K|^2$.
+- **Equivariant Motor Projections** (`identity_motor_invariant`): Unit rotor / motor sandwich transformations $T_M(A) = M A \widetilde{M}$.
 
 ### 3. `Paritas.Grassmannian` — Totally Non-Negative Grassmannian $\mathfrak{G}_{k,n}^{\ge 0}$
 - **Plücker Blades**: Association of Grassmannian generators with simple decomposable Clifford $k$-blades.
@@ -69,6 +71,13 @@ Developed by the **ToposLang / PLQ / TMMSL** initiative, `Paritas` provides an i
   - 2D Isostatic Triangle (`triangle_certified`): $d=2, N_v=3, N_b=3 \implies \nu = 3$.
   - 2D Kagome Periodic Unit Cell (`kagome_isostatic_certified`): $d=2, N_v=3, N_b=6 \implies \nu = 0$, isostatic $\langle z \rangle = 4 = 2d$.
   - Boundary Nilpotency (`kagome_cell_nilpotency`): $B_1 \cdot B_2 = 0$.
+
+### 6. `Paritas.Quantum` — Quantum Phase Space, MUBs, & Skein Invariants
+- **Discrete Symplectic Phase Space** (`symplectic_skew_symmetric`, `symplectic_self_orthogonal`): Skew-symmetry $\Omega(u, v) = -\Omega(v, u)$ and isotropy $\Omega(u, u) = 0$ on $\mathbb{Z}_d \times \mathbb{Z}_d$.
+- **Mutually Unbiased Bases (MUBs)** (`qubit_mub_count`, `qutrit_mub_count`): $d + 1$ MUBs in prime dimensions ($d=2 \implies 3$ MUBs, $d=3 \implies 4$ MUBs).
+- **SIC-POVM Tight Frames & Zero-Inversion Tomography** (`qubit_sic_tetrahedron`, `sic_trace_reconstruction`): $d^2$ equiangular projectors with overlap $\frac{1}{d+1}$ and exact linear state reconstruction:
+  $$\rho = (d + 1) \sum_{j=1}^{d^2} p_j \Pi_j - \mathbb{I}_d, \qquad \mathrm{Tr}(\rho) = (d + 1) \cdot 1 - d = 1$$
+- **Kauffman Bracket Skein Algebra** (`kauffman_skein_zero`, `unknot_disjoint_identity`): Link diagrams with Skein relation $\langle L \rangle = A \langle L_0 \rangle + B \langle L_\infty \rangle$ and unknot elimination.
 
 ---
 
