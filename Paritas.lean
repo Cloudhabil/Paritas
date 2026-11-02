@@ -27,6 +27,7 @@ import Paritas.Manifold8D.Triality
 import Paritas.Mechanics.MaxwellCalladine
 import Paritas.Quantum.Tomography
 import Paritas.Quantum.Kauffman
+import Paritas.Foundations
 
 /-!
 # Paritas: Directed Acyclic Cell Complexes, Hodge-Clifford Transformers, & Topological Physics
@@ -34,7 +35,14 @@ import Paritas.Quantum.Kauffman
 `Paritas` is a production-grade, self-contained Lean 4 mathematical library standardizing the core
 algebraic and geometric engines across the **ToposLang / TMMSL / PLQ** architecture:
 
-1. **DACC Core & Parity Duality** (`Paritas.DACC`):
+1. **Constructive Foundations & Epistemic Non-Vacuity** (`Paritas.Foundations`):
+   - Epistemic non-vacuity and constructive realizers (`Paritas.Foundations.NonVacuity`).
+   - Algebraic generation completeness and universal generator grounding (`Paritas.Foundations.Generation`).
+   - Multiscale renormalization group towers and base-case $k=1$ recovery (`Paritas.Foundations.Multiscale`).
+   - Degree-homogeneous multilinear scaling bounds $\alpha^n (n!)^\beta$ (`Paritas.Foundations.Scaling`).
+   - Kernel axiomatic parsimony and core-axiom classification (`Paritas.Foundations.KernelGuard`).
+
+2. **DACC Core & Parity Duality** (`Paritas.DACC`):
    - Graded cell complexes and 4-tier homological boundary nilpotency: $B_1 B_2 = 0$, $B_2 B_3 = 0$, $B_3 B_4 = 0$.
    - Universal DACC Parity Duality: $I = B + B^T$ is universally symmetric.
    - Exact $E_8$ Dynkin DAG plumbing matrix instantiation of the $E_8$ Cartan intersection form.

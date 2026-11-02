@@ -15,29 +15,49 @@ Developed by the **ToposLang / PLQ / TMMSL** initiative, `Paritas` provides an i
 ## Architecture Overview
 
 ```
-                                      Paritas.lean
-                                           │
-         ┌───────────────────┬─────────────┴───────┬──────────────────┬─────────────────┬──────────────────┐
-         ▼                   ▼                     ▼                  ▼                 ▼                  ▼
-    Paritas.DACC     Paritas.HodgeClifford  Paritas.Grassmannian  Paritas.Manifold8D  Paritas.Mechanics  Paritas.Quantum
-         │                   │                     │                  │                 │                  │
-    ┌────┴────┐         ┌────┴────────┐            │             ┌────┴────┐            │             ┌────┴─────┐
-    ▼         ▼         ▼    ▼        ▼            ▼             ▼         ▼            ▼             ▼          ▼
-  Basic    Laplacian  Basic Dirac Projectors     Basic         Basic    Triality   MaxwellCalladine Tomography Kauffman
-  Duality             Attention
+                                                  Paritas.lean
+                                                       │
+         ┌───────────────────┬─────────────────────────┼──────────────────┬──────────────────┬─────────────────┬──────────────────┐
+         ▼                   ▼                         ▼                  ▼                  ▼                 ▼                  ▼
+Paritas.Foundations    Paritas.DACC          Paritas.HodgeClifford Paritas.Grassmannian Paritas.Manifold8D Paritas.Mechanics Paritas.Quantum
+         │                   │                         │                  │                  │                 │                  │
+    ┌────┼────┐         ┌────┴────┐               ┌────┴────────┐         │             ┌────┴────┐            │             ┌────┴─────┐
+    ▼    ▼    ▼         ▼         ▼               ▼    ▼        ▼         ▼             ▼         ▼            ▼             ▼          ▼
+ NonVac  Gen Scaling  Basic    Laplacian        Basic Dirac Projectors  Basic         Basic    Triality   MaxwellCalladine Tomography Kauffman
+ Multi-  KernelGuard  Duality                   Attention
+ scale
 ```
 
 ---
 
 ## Formalized Modules & Verified Theorems
 
-### 1. `Paritas.DACC` — Directed Acyclic Cell Complexes & Parity Duality
+### 1. `Paritas.Foundations` — Constructive Foundations, Epistemic Non-Vacuity & Kernel Guard
+- **Epistemic Non-Vacuity & Realizability** (`Paritas.Foundations.NonVacuity`):
+  - Precludes degenerate models ($G = 0$, $\mathcal{H} = \{0\}$).
+  - Constructive realizer bundles `ConstructiveWitness α P` forbidding circular identity-forwarding hypotheses ($H \vdash H$).
+  - Two-level quantum spectral gap realizability (`twoLevelSpectralGap`) proving $\Delta = 1 > 0$ with $E(\Omega) < E(\psi)$ (`vacuum_is_minimal_energy`).
+- **Universal Generator Grounding** (`Paritas.Foundations.Generation`):
+  - Inductive syntax of generator terms `GeneratedTerm m` and valuation `evalTerm`.
+  - Universal determination theorem (`uniqueness_on_generators`): Endomorphisms agreeing on physical generators are identically equal across the whole generated algebra.
+- **Multiscale Renormalization Group Towers** (`Paritas.Foundations.Multiscale`):
+  - Iterated block decimation $(ST)^k$ with verified base-case recovery at $k = 1$ (`base_case_recovery`): $(ST)^1 = ST$.
+  - Semigroup compound composition (`compound_additivity`): $(ST)^{k + m} = (ST)^k \circ (ST)^m$.
+  - Monotonic screening decay profile (`geometricDecayProfile`) with bare lattice congruence (`bare_lattice_congruence`).
+- **Degree-Homogeneous Multilinear Bounds** (`Paritas.Foundations.Scaling`):
+  - Enforces degree-homogeneous scaling prefactors $\alpha^n (n!)^\beta$ under continuous field dilation.
+  - Multi-point tensor compounding theorem (`degree_homogeneous_compounding`): Products of degree-$n$ and degree-$m$ bounds are bounded by degree-$(n + m)$ composite bounds.
+- **Kernel Axiomatic Parsimony** (`Paritas.Foundations.KernelGuard`):
+  - Formal audit classification `auditKernelAxioms` verifying that declarations depend strictly on standard core axioms (`[propext, Classical.choice, Quot.sound]`).
+  - Formal rejection of stubs (`sorryAx_rejected`) and unproven custom axioms.
+
+### 2. `Paritas.DACC` — Directed Acyclic Cell Complexes & Parity Duality
 - **4-Tier Nilpotency**: Graded complexes $K = K_0 \sqcup K_1 \sqcup K_2 \sqcup K_3 \sqcup K_4$ satisfying $B_1 B_2 = 0$, $B_2 B_3 = 0$, $B_3 B_4 = 0$.
 - **Universal Parity Symmetry** (`dacc_parity_coupling_symmetric`): Proves that for *any* incidence operator $B$, the self-coupling $I = B + B^T$ is symmetric under transposition ($I^T = I$).
 - **$E_8$ Dynkin DAG Plumbing Instantiation** (`e8_dacc_parity_instantiation`): Constructive certification that the $8 \times 8$ $E_8$ Cartan intersection matrix is identically the DACC Parity Coupling $I_{E_8} = B_{\text{dacc}} + B_{\text{dacc}}^T$ of the directed Dynkin tree.
 - **Discrete Hodge Laplacians** (`laplacian1_self_adjoint`): Proof that $L_1 = B_1^T B_1 + B_2 B_2^T$ is self-adjoint ($L_1^T = L_1$).
 
-### 2. `Paritas.HodgeClifford` — Hodge-Clifford Spatial Transformers (HCST)
+### 3. `Paritas.HodgeClifford` — Hodge-Clifford Spatial Transformers (HCST)
 - **Kähler-Dirac Operator** (`hodge_dirac_self_adjoint`): $D = B + B^T$ is self-adjoint ($D^T = D$) with $D^2 = L$.
 - **4D Clifford Hodge Star Involution** (`hodge_star_is_involution`): $\star_{\text{Cl}} \cdot \star_{\text{Cl}} = I_6$ on the 6D bivector space $\Lambda^2(\mathbb{R}^4)$.
 - **Chiral Projector Idempotency** (`self_dual_projector_idempotent`): $(2 P_+)^2 = 2 (2 P_+)$ for $2 P_+ = I_6 + \star_{\text{Cl}}$.
@@ -47,12 +67,12 @@ Developed by the **ToposLang / PLQ / TMMSL** initiative, `Paritas` provides an i
 - **Dual-Stream Clifford Attention** (`attention_collinear_wedge_zero`, `attention_wedge_penalty_decreases`): Unifies Grade-0 metric scalar alignment with exterior wedge steric cancellation penalty $E_{ij} = \langle Q \widetilde{K} \rangle_0 - \lambda_\wedge |Q \wedge K|^2$.
 - **Equivariant Motor Projections** (`identity_motor_invariant`): Unit rotor / motor sandwich transformations $T_M(A) = M A \widetilde{M}$.
 
-### 3. `Paritas.Grassmannian` — Totally Non-Negative Grassmannian $\mathfrak{G}_{k,n}^{\ge 0}$
+### 4. `Paritas.Grassmannian` — Totally Non-Negative Grassmannian $\mathfrak{G}_{k,n}^{\ge 0}$
 - **Plücker Blades**: Association of Grassmannian generators with simple decomposable Clifford $k$-blades.
 - **Postnikov Path-Integral Inversion** (`postnikov_nilpotent_inverse_order2`): Exact finite algebraic inversion of acyclic DACC boundary measurements:
   $$(I - A) \cdot (I + A) = I \qquad \text{for strictly upper-triangular } A$$
 
-### 4. `Paritas.Manifold8D` — 8D Solid-State Clifford Manifold $M^8$ & Spin(8) Triality
+### 5. `Paritas.Manifold8D` — 8D Solid-State Clifford Manifold $M^8$ & Spin(8) Triality
 - **256-Blade Stalk Dimension** (`stalk_dim_eq_256`): Proof that $\dim \mathrm{Cl}(8,0,0) = 2^8 = 256$.
 - **Binomial Grade Decomposition** (`stalk_grade_decomposition`):
   $$1 + 8 + 28 + 56 + 70 + 56 + 28 + 8 + 1 = 256$$
@@ -63,7 +83,7 @@ Developed by the **ToposLang / PLQ / TMMSL** initiative, `Paritas` provides an i
 - **Adjoint Bivector Dimension** (`so8_adjoint_dim_28`): $\dim \mathfrak{so}(8) = \binom{8}{2} = 28$.
 - **$E_8$ Root Basis Gram Matrix** (`e8_cartan_diagonal_pos`, `e8_gram_diagonal`): Diagonal positivity certifying ground-state stability with signature $\sigma = 8$.
 
-### 5. `Paritas.Mechanics` — Discrete Topological Mechanics
+### 6. `Paritas.Mechanics` — Discrete Topological Mechanics
 - **Maxwell–Calladine Index Theorem** (`maxwell_calladine_index_theorem`): Constructive proof that the topological index equals the degree of freedom deficit:
   $$\nu = N_0 - N_{ss} = \dim\ker C - \dim\ker C^T = d \cdot N_v - N_b$$
 - **Mode Non-Negativity** (`maxwell_modes_nonneg`): Both floppy modes $N_0 \ge 0$ and states of self-stress $N_{ss} \ge 0$.
@@ -73,7 +93,7 @@ Developed by the **ToposLang / PLQ / TMMSL** initiative, `Paritas` provides an i
   - 2D Kagome Periodic Unit Cell (`kagome_isostatic_certified`): $d=2, N_v=3, N_b=6 \implies \nu = 0$, isostatic $\langle z \rangle = 4 = 2d$.
   - Boundary Nilpotency (`kagome_cell_nilpotency`): $B_1 \cdot B_2 = 0$.
 
-### 6. `Paritas.Quantum` — Quantum Phase Space, MUBs, & Skein Invariants
+### 7. `Paritas.Quantum` — Quantum Phase Space, MUBs, & Skein Invariants
 - **Discrete Symplectic Phase Space** (`symplectic_skew_symmetric`, `symplectic_self_orthogonal`): Skew-symmetry $\Omega(u, v) = -\Omega(v, u)$ and isotropy $\Omega(u, u) = 0$ on $\mathbb{Z}_d \times \mathbb{Z}_d$.
 - **Mutually Unbiased Bases (MUBs)** (`qubit_mub_count`, `qutrit_mub_count`): $d + 1$ MUBs in prime dimensions ($d=2 \implies 3$ MUBs, $d=3 \implies 4$ MUBs).
 - **SIC-POVM Tight Frames & Zero-Inversion Tomography** (`qubit_sic_tetrahedron`, `sic_trace_reconstruction`): $d^2$ equiangular projectors with overlap $\frac{1}{d+1}$ and exact linear state reconstruction:
@@ -88,6 +108,21 @@ Every single definition and theorem in `Paritas` is machine-checked in pure Lean
 The `#print axioms` audit confirms:
 
 ```lean
+#print axioms Paritas.Foundations.vacuum_is_minimal_energy
+-- depends on axioms: [propext, Quot.sound]
+
+#print axioms Paritas.Foundations.uniqueness_on_generators
+-- does not depend on any axioms
+
+#print axioms Paritas.Foundations.base_case_recovery
+-- does not depend on any axioms
+
+#print axioms Paritas.Foundations.degree_homogeneous_compounding
+-- depends on axioms: [propext, Quot.sound]
+
+#print axioms Paritas.Foundations.standard_trio_verified_clean
+-- does not depend on any axioms
+
 #print axioms Paritas.DACC.dacc_parity_coupling_symmetric
 -- depends on axioms: [propext, Quot.sound]
 

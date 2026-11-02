@@ -12,3 +12,6 @@ package «paritas» where
 @[default_target]
 lean_lib «Paritas» where
   roots := #[`Paritas]
+
+lean_exe «paritas_test» where
+  root := `Tests.Main
